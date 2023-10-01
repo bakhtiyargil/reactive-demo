@@ -1,4 +1,4 @@
-package az.baxtiyargill.reactivedemo.configuration.properties;
+package az.baxtiyargil.reactivedemo.configuration.properties;
 
 import lombok.AccessLevel;
 import lombok.Getter;

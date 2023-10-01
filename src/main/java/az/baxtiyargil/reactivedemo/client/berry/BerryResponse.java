@@ -1,6 +1,6 @@
-package az.baxtiyargill.reactivedemo.client.berry;
+package az.baxtiyargil.reactivedemo.client.berry;
 
-import az.baxtiyargill.reactivedemo.client.move.MoveResponse;
+import az.baxtiyargil.reactivedemo.client.move.MoveResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.Builder;

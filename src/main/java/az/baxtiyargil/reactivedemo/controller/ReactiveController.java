@@ -1,7 +1,7 @@
-package az.baxtiyargill.reactivedemo.controller;
+package az.baxtiyargil.reactivedemo.controller;
 
-import az.baxtiyargill.reactivedemo.client.berry.BerryResponse;
-import az.baxtiyargill.reactivedemo.service.ReactiveService;
+import az.baxtiyargil.reactivedemo.client.berry.BerryResponse;
+import az.baxtiyargil.reactivedemo.service.ReactiveService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

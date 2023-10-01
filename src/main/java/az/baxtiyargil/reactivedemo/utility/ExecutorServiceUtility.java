@@ -1,6 +1,6 @@
-package az.baxtiyargill.reactivedemo.utility;
+package az.baxtiyargil.reactivedemo.utility;
 
-import az.baxtiyargill.reactivedemo.configuration.properties.ApplicationProperties;
+import az.baxtiyargil.reactivedemo.configuration.properties.ApplicationProperties;
 import lombok.experimental.UtilityClass;
 
 import java.util.concurrent.ScheduledThreadPoolExecutor;

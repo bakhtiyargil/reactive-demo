@@ -1,4 +1,4 @@
-package az.baxtiyargill.reactivedemo.client;
+package az.baxtiyargil.reactivedemo.client;
 
 import feign.Logger;
 import org.springframework.context.annotation.Bean;

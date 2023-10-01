@@ -1,4 +1,4 @@
-package az.baxtiyargill.reactivedemo.client.move;
+package az.baxtiyargil.reactivedemo.client.move;
 
 import lombok.AccessLevel;
 import lombok.Data;

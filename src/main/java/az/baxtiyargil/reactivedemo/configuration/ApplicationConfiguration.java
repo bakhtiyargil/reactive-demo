@@ -1,6 +1,6 @@
-package az.baxtiyargill.reactivedemo.configuration;
+package az.baxtiyargil.reactivedemo.configuration;
 
-import az.baxtiyargill.reactivedemo.configuration.properties.ApplicationProperties;
+import az.baxtiyargil.reactivedemo.configuration.properties.ApplicationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 

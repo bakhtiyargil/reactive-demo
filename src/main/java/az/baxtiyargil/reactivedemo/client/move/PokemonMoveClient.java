@@ -1,4 +1,4 @@
-package az.baxtiyargill.reactivedemo.client.move;
+package az.baxtiyargil.reactivedemo.client.move;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

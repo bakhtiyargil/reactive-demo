@@ -1,4 +1,4 @@
-package az.baxtiyargill.reactivedemo.client.berry;
+package az.baxtiyargil.reactivedemo.client.berry;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,9 +1,9 @@
-package az.baxtiyargill.reactivedemo.service;
+package az.baxtiyargil.reactivedemo.service;
 
-import az.baxtiyargill.reactivedemo.client.berry.BerryResponse;
-import az.baxtiyargill.reactivedemo.client.move.PokemonMoveClient;
-import az.baxtiyargill.reactivedemo.configuration.properties.ApplicationProperties;
-import az.baxtiyargill.reactivedemo.utility.ExecutorServiceUtility;
+import az.baxtiyargil.reactivedemo.utility.ExecutorServiceUtility;
+import az.baxtiyargil.reactivedemo.client.berry.BerryResponse;
+import az.baxtiyargil.reactivedemo.client.move.PokemonMoveClient;
+import az.baxtiyargil.reactivedemo.configuration.properties.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
