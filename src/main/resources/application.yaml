@@ -1,0 +1,16 @@
+application:
+  client:
+    pokemon-berry:
+      url: https://pokeapi.co/api
+    pokemon-move:
+      url: https://pokeapi.co/api
+
+  executor:
+    core-pool-size: 3
+    max-pool-size: 10
+    keep-alive-time: 60
+
+logging:
+  level:
+    root: info
+    az.baxtiyargill.reactivedemo.client: debug
