@@ -1,3 +1,37 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 1405
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      pool-name: pg-pool
+      connection-timeout: 60000
+      maximum-pool-size: 10
+      leak-detection-threshold: 6000
+      auto-commit: true
+  jpa:
+    database: postgresql
+    generate-ddl: false
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          batch_size: 35
+          order_inserts: true
+          order_updates: true
+        temp:
+          use_jdbc_metadata_defaults: false
+        query:
+          fail_on_pagination_over_collection_fetch: true
+      jakarta:
+        persistence:
+          sharedCache:
+            mode: NONE
+
 application:
   client:
     pokemon-berry:
