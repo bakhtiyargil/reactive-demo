@@ -1,4 +1,4 @@
-package az.baxtiyargil.reactivedemo.model;
+package az.baxtiyargil.reactivedemo.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,7 +22,7 @@ public class Berry {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "name")
@@ -37,5 +37,8 @@ public class Berry {
 
     @Column(name = "soil_dryness")
     private Integer soilDryness;
+
+    @Column(name = "move_id")
+    private Long moveId;
 
 }

@@ -1,10 +1,12 @@
 package az.baxtiyargil.reactivedemo.service;
 
-import az.baxtiyargil.reactivedemo.utility.ExecutorServiceUtility;
-import az.baxtiyargil.reactivedemo.client.berry.BerryResponse;
 import az.baxtiyargil.reactivedemo.client.move.PokemonMoveClient;
 import az.baxtiyargil.reactivedemo.configuration.properties.ApplicationProperties;
+import az.baxtiyargil.reactivedemo.model.request.BerrySearchDto;
+import az.baxtiyargil.reactivedemo.model.response.BerryView;
+import az.baxtiyargil.reactivedemo.utility.ExecutorServiceUtility;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -15,11 +17,10 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static reactor.core.scheduler.Schedulers.fromExecutorService;
 
@@ -28,24 +29,36 @@ import static reactor.core.scheduler.Schedulers.fromExecutorService;
 @RequiredArgsConstructor
 public class ReactiveService {
 
+    private final BerryService berryService;
     private final PokemonMoveClient pokemonMoveClient;
     private final ApplicationProperties applicationProperties;
 
-    public List<BerryResponse> react() {
-        AtomicInteger counter = new AtomicInteger(0);
-        var berryMap = dummyBerriesWithSuccess();
+    public List<BerryView> react(BerrySearchDto searchDto, Pageable pageable) {
+        if (Objects.nonNull(searchDto.getMoveFilter())) {
+            return getBerriesForOneCustomer(searchDto, pageable);
+        } else {
+            return getBerriesForMultipleCustomer(searchDto, pageable);
+        }
+    }
 
+    private List<BerryView> getBerriesForMultipleCustomer(BerrySearchDto searchDto, Pageable pageable) {
+        AtomicInteger counter = new AtomicInteger(0);
+        var berryMap = berryService.search(searchDto.getBerryFilter(), pageable)
+                .stream()
+                .collect(Collectors.groupingBy(berryView -> berryView.getMoveResponse().getId()));
+
+        //TODO: divide, generic, consumers
         Flux<Long> flow = Flux.fromIterable(berryMap.keySet());
         flow
                 .parallel()
                 .runOn(fromExecutorService(
                         ExecutorServiceUtility.customizeAndGetThreadPoolExecutor(applicationProperties, berryMap.size())
                 ))
-                .flatMap(berryId -> Mono.fromCallable(() ->
+                .flatMap(moveId -> Mono.fromCallable(() ->
                                 {
-                                    var move = pokemonMoveClient.getMoveInfo(berryId);
-                                    berryMap.get(berryId).forEach(berry -> berry.setMoveResponse(move));
-                                    return berryId;
+                                    var move = pokemonMoveClient.getMoveInfo(moveId);
+                                    berryMap.get(moveId).forEach(berry -> berry.setMoveResponse(move));
+                                    return moveId;
                                 })
                                 .retryWhen(Retry.backoff(2, Duration.ofMillis(100)))
                                 .log("error.client.mono.", Level.INFO, SignalType.ON_ERROR)
@@ -64,48 +77,12 @@ public class ReactiveService {
                 .collect(ArrayList::new, List::add, List::addAll);
     }
 
-    /**
-     * A method that returns dummy data resulting in an error response for the MoveClient.
-     *
-     * @return Map of berries with id as the key.
-     */
-    private Map<Long, List<BerryResponse>> dummyBerriesWithError() {
-        //TODO: This method should be replaced with the service method that
-        // retrieves the corresponding data from the database.
-        var berry1 = BerryResponse.builder().id(1000L).build();
-        var berry2 = BerryResponse.builder().id(1002L).build();
-        var berry3 = BerryResponse.builder().id(1003L).build();
-        var berry4 = BerryResponse.builder().id(1003L).build();
-        var berry5 = BerryResponse.builder().id(1005L).build();
-        var berry6 = BerryResponse.builder().id(1006L).build();
-        var berry7 = BerryResponse.builder().id(1007L).build();
-        var berry8 = BerryResponse.builder().id(1008L).build();
-        var berry9 = BerryResponse.builder().id(1009L).build();
-        var berry10 = BerryResponse.builder().id(999L).build();
-        return Stream.of(berry1, berry2, berry3, berry4, berry5, berry6, berry7, berry8, berry9, berry10)
-                .collect(Collectors.groupingBy(BerryResponse::getId));
-    }
-
-    /**
-     * A method that returns dummy data resulting in a successful response for the MoveClient.
-     *
-     * @return Map of berries with id as the key.
-     */
-    private Map<Long, List<BerryResponse>> dummyBerriesWithSuccess() {
-        //TODO: This method should be replaced with the service method that
-        // retrieves the corresponding data from the database.
-        var berry1 = BerryResponse.builder().id(1L).build();
-        var berry2 = BerryResponse.builder().id(2L).build();
-        var berry3 = BerryResponse.builder().id(3L).build();
-        var berry4 = BerryResponse.builder().id(3L).build();
-        var berry5 = BerryResponse.builder().id(5L).build();
-        var berry6 = BerryResponse.builder().id(6L).build();
-        var berry7 = BerryResponse.builder().id(7L).build();
-        var berry8 = BerryResponse.builder().id(8L).build();
-        var berry9 = BerryResponse.builder().id(9L).build();
-        var berry10 = BerryResponse.builder().id(999L).build();
-        return Stream.of(berry1, berry2, berry3, berry4, berry5, berry6, berry7, berry8, berry9, berry10)
-                .collect(Collectors.groupingBy(BerryResponse::getId));
+    private List<BerryView> getBerriesForOneCustomer(BerrySearchDto searchDto, Pageable pageable) {
+        var moveResponse = pokemonMoveClient.getMoveInfo(searchDto.getMoveFilter().getId());
+        return berryService.search(searchDto.getBerryFilter(), pageable)
+                .stream()
+                .peek(berryView -> berryView.setMoveResponse(moveResponse))
+                .collect(Collectors.toList());
     }
 
 }
