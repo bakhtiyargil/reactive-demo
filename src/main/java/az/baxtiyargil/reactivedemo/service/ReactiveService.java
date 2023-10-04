@@ -2,9 +2,9 @@ package az.baxtiyargil.reactivedemo.service;
 
 import az.baxtiyargil.reactivedemo.client.move.PokemonMoveClient;
 import az.baxtiyargil.reactivedemo.configuration.properties.ApplicationProperties;
+import az.baxtiyargil.reactivedemo.model.reactive.ReactiveResponse;
 import az.baxtiyargil.reactivedemo.model.request.BerrySearchDto;
 import az.baxtiyargil.reactivedemo.model.response.BerryView;
-import az.baxtiyargil.reactivedemo.model.reactive.ReactiveResponse;
 import az.baxtiyargil.reactivedemo.utility.ReactiveUtility;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -41,7 +41,7 @@ public class ReactiveService {
 
         var parallelFlux = ReactiveUtility.createParallelFlux(berryMap.keySet(), applicationProperties);
         parallelFlux
-                .flatMap(ReactiveUtility.monoFunction(pokemonMoveClient::getMoveInfo))
+                .flatMap(ReactiveUtility.toMonoFunction(pokemonMoveClient::getMoveInfo))
                 .collectSortedList(Comparator.comparing(ReactiveResponse::getId))
                 .block(Duration.ofSeconds(5));
 

@@ -1,9 +1,7 @@
 package az.baxtiyargil.reactivedemo.utility;
 
 import az.baxtiyargil.reactivedemo.configuration.properties.ApplicationProperties;
-import az.baxtiyargil.reactivedemo.model.reactive.ReactiveResponse;
 import lombok.experimental.UtilityClass;
-import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.ParallelFlux;
@@ -33,8 +31,7 @@ public class ReactiveUtility {
                 );
     }
 
-    public <T extends Number, R extends ReactiveResponse>
-    Function<? super T, ? extends Publisher<R>> monoFunction(Function<T, R> function) {
+    public <T extends Number, R> Function<T, Mono<R>> toMonoFunction(Function<T, R> function) {
         return (id) -> Mono.fromCallable(() -> function.apply(id))
                 .retryWhen(Retry.backoff(2, Duration.ofMillis(500)))
                 .log(MONO_ERROR_CATEGORY, Level.INFO, SignalType.ON_ERROR)
