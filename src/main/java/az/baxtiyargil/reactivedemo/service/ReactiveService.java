@@ -1,5 +1,6 @@
 package az.baxtiyargil.reactivedemo.service;
 
+import az.baxtiyargil.reactivedemo.client.move.MoveResponse;
 import az.baxtiyargil.reactivedemo.client.move.PokemonMoveClient;
 import az.baxtiyargil.reactivedemo.configuration.properties.ApplicationProperties;
 import az.baxtiyargil.reactivedemo.model.reactive.ReactiveResponse;
@@ -14,7 +15,9 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
@@ -42,6 +45,7 @@ public class ReactiveService {
         var parallelFlux = ReactiveUtility.createParallelFlux(berryMap.keySet(), applicationProperties);
         parallelFlux
                 .flatMap(ReactiveUtility.toMonoFunction(pokemonMoveClient::getMoveInfo))
+                .map(mapperFunction(berryMap))
                 .collectSortedList(Comparator.comparing(ReactiveResponse::getId))
                 .block(Duration.ofSeconds(5));
 
@@ -56,6 +60,14 @@ public class ReactiveService {
                 .stream()
                 .peek(berryView -> berryView.setMoveResponse(moveResponse))
                 .collect(Collectors.toList());
+    }
+
+    private Function<MoveResponse, MoveResponse> mapperFunction(Map<Long, List<BerryView>> berryMap) {
+        return (moveResponse) -> {
+            berryMap.get(moveResponse.getId())
+                    .forEach(berryView -> berryView.setMoveResponse(moveResponse));
+            return moveResponse;
+        };
     }
 
 }
