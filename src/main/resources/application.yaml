@@ -47,4 +47,4 @@ application:
 logging:
   level:
     root: info
-    az.baxtiyargill.reactivedemo.client: debug
+    az.baxtiyargil.reactivedemo.client: debug
