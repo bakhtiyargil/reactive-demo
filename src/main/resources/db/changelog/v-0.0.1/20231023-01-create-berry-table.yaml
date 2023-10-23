@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20230905-01
+      author: Bakhtiyar Karimov
+      changes:
+        - createTable:
+            tableName: berry
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: berry_pk
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: size
+                  type: SMALLINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: growth_time
+                  type: SMALLINT
+              - column:
+                  name: soil_dryness
+                  type: SMALLINT

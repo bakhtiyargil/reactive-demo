@@ -31,6 +31,8 @@ spring:
         persistence:
           sharedCache:
             mode: NONE
+  liquibase:
+    default-schema: reactive
 
 application:
   client:

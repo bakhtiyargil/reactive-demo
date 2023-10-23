@@ -31,13 +31,13 @@ public class ReactiveService {
 
     public List<BerryView> react(BerrySearchDto searchDto, Pageable pageable) {
         if (Objects.nonNull(searchDto.getMoveFilter())) {
-            return getBerriesForOneCustomer(searchDto, pageable);
+            return getBerriesForOneMove(searchDto, pageable);
         } else {
-            return getBerriesForMultipleCustomer(searchDto, pageable);
+            return getBerriesForMultipleMove(searchDto, pageable);
         }
     }
 
-    private List<BerryView> getBerriesForMultipleCustomer(BerrySearchDto searchDto, Pageable pageable) {
+    private List<BerryView> getBerriesForMultipleMove(BerrySearchDto searchDto, Pageable pageable) {
         var berryMap = berryService.search(searchDto.getBerryFilter(), pageable)
                 .stream()
                 .collect(Collectors.groupingBy(berryView -> berryView.getMoveResponse().getId()));
@@ -54,7 +54,7 @@ public class ReactiveService {
                 .collect(ArrayList::new, List::add, List::addAll);
     }
 
-    private List<BerryView> getBerriesForOneCustomer(BerrySearchDto searchDto, Pageable pageable) {
+    private List<BerryView> getBerriesForOneMove(BerrySearchDto searchDto, Pageable pageable) {
         var moveResponse = pokemonMoveClient.getMoveInfo(searchDto.getMoveFilter().getId());
         return berryService.search(searchDto.getBerryFilter(), pageable)
                 .stream()
