@@ -21,6 +21,9 @@ databaseChangeLog:
               - column:
                   name: soil_dryness
                   value: 1
+              - column:
+                  name: move_id
+                  value: 1
         - insert:
             tableName: berry
             columns:
@@ -38,6 +41,9 @@ databaseChangeLog:
                   value: 2
               - column:
                   name: soil_dryness
+                  value: 2
+              - column:
+                  name: move_id
                   value: 2
         - insert:
             tableName: berry
@@ -57,6 +63,9 @@ databaseChangeLog:
               - column:
                   name: soil_dryness
                   value: 3
+              - column:
+                  name: move_id
+                  value: 3
         - insert:
             tableName: berry
             columns:
@@ -74,6 +83,9 @@ databaseChangeLog:
                   value: 4
               - column:
                   name: soil_dryness
+                  value: 4
+              - column:
+                  name: move_id
                   value: 4
         - insert:
             tableName: berry
@@ -93,6 +105,9 @@ databaseChangeLog:
               - column:
                   name: soil_dryness
                   value: 5
+              - column:
+                  name: move_id
+                  value: 5
         - insert:
             tableName: berry
             columns:
@@ -110,6 +125,9 @@ databaseChangeLog:
                   value: 6
               - column:
                   name: soil_dryness
+                  value: 6
+              - column:
+                  name: move_id
                   value: 6
         - insert:
             tableName: berry
@@ -129,6 +147,9 @@ databaseChangeLog:
               - column:
                   name: soil_dryness
                   value: 7
+              - column:
+                  name: move_id
+                  value: 7
         - insert:
             tableName: berry
             columns:
@@ -146,6 +167,9 @@ databaseChangeLog:
                   value: 8
               - column:
                   name: soil_dryness
+                  value: 8
+              - column:
+                  name: move_id
                   value: 8
         - insert:
             tableName: berry
@@ -165,6 +189,9 @@ databaseChangeLog:
               - column:
                   name: soil_dryness
                   value: 9
+              - column:
+                  name: move_id
+                  value: 9
         - insert:
             tableName: berry
             columns:
@@ -182,4 +209,7 @@ databaseChangeLog:
                   value: 10
               - column:
                   name: soil_dryness
+                  value: 10
+              - column:
+                  name: move_id
                   value: 10

@@ -29,3 +29,6 @@ databaseChangeLog:
               - column:
                   name: soil_dryness
                   type: SMALLINT
+              - column:
+                  name: move_id
+                  type: BIGINT

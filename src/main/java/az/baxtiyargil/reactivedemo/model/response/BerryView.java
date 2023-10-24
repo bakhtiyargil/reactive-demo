@@ -14,6 +14,7 @@ public class BerryView {
     Integer size;
     Integer growthTime;
     Integer soilDryness;
+    Long moveId;
     MoveResponse moveResponse;
 
 }

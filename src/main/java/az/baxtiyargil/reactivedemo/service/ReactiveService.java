@@ -40,14 +40,14 @@ public class ReactiveService {
     private List<BerryView> getBerriesForMultipleMove(BerrySearchDto searchDto, Pageable pageable) {
         var berryMap = berryService.search(searchDto.getBerryFilter(), pageable)
                 .stream()
-                .collect(Collectors.groupingBy(berryView -> berryView.getMoveResponse().getId()));
+                .collect(Collectors.groupingBy(BerryView::getMoveId));
 
         var parallelFlux = ReactiveUtility.createParallelFlux(berryMap.keySet(), applicationProperties);
         parallelFlux
                 .flatMap(ReactiveUtility.toMonoFunction(pokemonMoveClient::getMoveInfo))
                 .map(mapperFunction(berryMap))
                 .collectSortedList(Comparator.comparing(ReactiveResponse::getId))
-                .block(Duration.ofSeconds(5));
+                .block(Duration.ofSeconds(10));
 
         return berryMap.values().stream()
                 .flatMap(List::stream)
